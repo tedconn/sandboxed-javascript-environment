@@ -32,18 +32,11 @@ export type RedProxy = RedObject | RedFunction;
 export type BlueProxy = BlueObject | BlueFunction;
 
 export type DistortionMap = WeakMap<RedProxyTarget, RedProxyTarget>;
+export type EvaluateCallback = () => void;
+export type Evaluator = (source: string) => void;
 
-export interface MembraneBroker {
-    // map from red to blue references
-    redMap: WeakMap<RedFunction | RedObject, RedProxyTarget | BlueProxy>;
-    // map from blue to red references
-    blueMap: WeakMap<BlueFunction | BlueObject, RedProxy | BlueProxyTarget>;
-    // blue object distortion map
-    distortionMap: DistortionMap;
-
-    getBlueValue(red: RedValue): BlueValue;
-    getRedValue(blue: BlueValue): RedValue;
-    getBlueRef(red: RedValue): BlueValue | undefined;
-    getRedRef(blue: BlueValue): RedValue | undefined;
-    setRefMapEntries(red: RedValue, blue: BlueValue): void;
-}
+export type RedEvaluator = (
+    sourceText: string,
+    beforeEvaluateCallback: EvaluateCallback,
+    afterEvaluateCallback: EvaluateCallback
+) => void
